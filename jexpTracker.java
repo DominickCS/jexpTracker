@@ -1,7 +1,9 @@
 import java.io.File; // Import the File class
 import java.io.FileWriter; // Import the FileWriter Class
+import java.util.ArrayList;
 import java.util.Scanner; // Import the Java Scanner Class
 import java.io.IOException; // Import the IOException class to handle errors
+import java.util.ArrayList; // Import the ArrayList Utility Class
 
 class jexpTracker {
   public static void main(String[] args) {
@@ -25,6 +27,9 @@ class jexpTracker {
     String textToWrite = "";
     double costToWrite = 0.0;
     double totalExp = 0.0;
+    ArrayList<String> expenseList = new ArrayList<String>();
+    ArrayList<Double> costList = new ArrayList<Double>();
+
     if (expenseSheet.canWrite() == true) {
       try {
         FileWriter expenseSheetWritable = new FileWriter(expenseSheet); // Init FileWriter to a writable text file
@@ -39,10 +44,12 @@ class jexpTracker {
           if (textToWrite.equals("/")) {
             break;
           } else {
+            expenseList.add(textToWrite);
             expenseSheetWritable.write(textToWrite + ": ");
           }
           System.out.println("Enter the monthly cost in $\n");
           costToWrite = costInput.nextDouble();
+          costList.add(costToWrite);
           totalExp += costToWrite;
           expenseSheetWritable.write(Double.toString(costToWrite) + " ");
         }
@@ -52,10 +59,11 @@ class jexpTracker {
 
         expenseSheetWritable.close(); // Close the text file
 
-        while (scnr.hasNext()) { // Loop the text file and output its contents
-          String word = scnr.next();
-          System.out.println(word);
-          System.out.println("");
+        for (int i = 0; i < expenseList.size(); i++) { // Loop the text file and output its contents
+          System.out.println(expenseList.get(i));
+          System.out.print("-> $");
+          System.out.printf("%.2f", costList.get(i));
+          System.out.println();
         }
         System.out.println("----- TOTAL MONTHLY EXPENSE AMOUNT -----");
         System.out.print("$");
