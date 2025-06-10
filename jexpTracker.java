@@ -6,6 +6,20 @@ import java.io.IOException; // Import the IOException class to handle errors
 class jexpTracker {
   public static void main(String[] args) {
     File expenseSheet = new File("expenses.txt"); // Filename to open
+
+    System.out.println("Attempting to create expense sheet txt file.");
+
+    try {
+      if (expenseSheet.createNewFile()) {
+        System.out.println("Expense Sheet Created!");
+      } else {
+        System.out.println("File already exists.");
+      }
+    } catch (IOException e) {
+      System.out.println("Error creating new expense sheet");
+      e.printStackTrace();
+    }
+
     Scanner textInput = new Scanner(System.in);
     Scanner costInput = new Scanner(System.in);
     String textToWrite = "";
@@ -16,10 +30,6 @@ class jexpTracker {
         FileWriter expenseSheetWritable = new FileWriter(expenseSheet); // Init FileWriter to a writable text file
         Scanner scnr = new Scanner(expenseSheet); // Init scanner to read text file
         // System.out.println("File is accessible!\n"); // DEBUG
-        if (!scnr.equals("")) {
-          System.out.println("File is not empty, clearing...\n");
-          expenseSheetWritable.write(""); // Init file, empty contents
-        }
 
         while (!textToWrite.equals("/")) {
           System.out.println("\nEnter an expense name.\nEnter '/' to end input.\n"); // Collect User input to enter into
@@ -47,7 +57,7 @@ class jexpTracker {
           System.out.println(word);
           System.out.println("");
         }
-        System.out.println("\n----- TOTAL MONTHLY EXPENSE AMOUNT -----");
+        System.out.println("----- TOTAL MONTHLY EXPENSE AMOUNT -----");
         System.out.print("$");
         System.out.printf("%.2f", totalExp);
         textInput.close();
