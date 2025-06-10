@@ -12,5 +12,5 @@ A Java CLI application that allows you to track personal expenses.
 
 ## TO-DO
 
-- Incorporate secondary input stream for expenses
+- [x] Incorporate secondary input stream for expenses -> ADDED
 - Main Menu with options to create new list, view/edit existing, and delete
