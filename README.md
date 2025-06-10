@@ -2,11 +2,21 @@
 
 A Java CLI application that allows you to track personal expenses.
 
-# Compile
+## Usage Instructions
 
-`javac jexpTracker`
+### Clone
 
-# Run
+`git clone https://github.com/DominickCS/jexpTracker.git`
+
+### Compile
+
+Inside the cloned directory run the following command:
+
+`javac jexpTracker.java`
+
+### Run
+
+Run the following command to execute the application:
 
 `java jexpTracker`
 
