@@ -13,10 +13,10 @@ class jexpTracker {
         FileWriter expenseSheetWritable = new FileWriter(expenseSheet); // Init FileWriter to a writable text file
         Scanner scnr = new Scanner(expenseSheet); // Init scanner to read text file
         System.out.println("File is accessible!\n");
-        if (!scnr.equals(""))  {
+        if (!scnr.equals("")) {
           System.out.println("File is not empty, clearing...\n");
           expenseSheetWritable.write(""); // Init file, empty contents
-          }
+        }
 
         System.out.println("Enter text to input into the file.\n"); // Collect User input to enter into the text file
         while (!textToWrite.equals("/")) {
@@ -30,20 +30,20 @@ class jexpTracker {
         System.out.println("FILE CONTENTS:\n");
 
         expenseSheetWritable.close(); // Close the text file
-        
+
         while (scnr.hasNext()) { // Loop the text file and output its contents
           String word = scnr.next();
           System.out.print(word);
           System.out.println();
         }
+        textInput.close();
+        scnr.close();
 
-      }
-      catch (IOException e) {
+      } catch (IOException e) {
         System.out.println("An error occurred");
         e.printStackTrace();
       }
-    }
-    else {
+    } else {
       System.out.println("File could not be accessed.");
     }
   }
