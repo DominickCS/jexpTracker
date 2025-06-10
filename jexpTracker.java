@@ -10,6 +10,7 @@ class jexpTracker {
     Scanner costInput = new Scanner(System.in);
     String textToWrite = "";
     double costToWrite = 0.0;
+    double totalExp = 0.0;
     if (expenseSheet.canWrite() == true) {
       try {
         FileWriter expenseSheetWritable = new FileWriter(expenseSheet); // Init FileWriter to a writable text file
@@ -21,8 +22,8 @@ class jexpTracker {
         }
 
         while (!textToWrite.equals("/")) {
-          System.out.println("Enter an expense name.\nEnter '/' to end input.\n"); // Collect User input to enter into
-                                                                                   // the
+          System.out.println("\nEnter an expense name.\nEnter '/' to end input.\n"); // Collect User input to enter into
+          // the
           // text file
           textToWrite = textInput.nextLine();
           if (textToWrite.equals("/")) {
@@ -30,21 +31,25 @@ class jexpTracker {
           } else {
             expenseSheetWritable.write(textToWrite + ": ");
           }
-          System.out.println("Enter the monthly cost in $");
+          System.out.println("Enter the monthly cost in $\n");
           costToWrite = costInput.nextDouble();
-          expenseSheetWritable.write(Double.toString(costToWrite));
+          totalExp += costToWrite;
+          expenseSheetWritable.write(Double.toString(costToWrite) + " ");
         }
 
         // System.out.println("Writing to file!\n"); // DEBUG
-        System.out.println("\n----- MONTHLY EXPENSES -----\n");
+        System.out.println("\n----- MONTHLY EXPENSES BREAKDOWN -----\n");
 
         expenseSheetWritable.close(); // Close the text file
 
         while (scnr.hasNext()) { // Loop the text file and output its contents
-          String word = scnr.nextLine();
-          System.out.print(word);
-          System.out.println();
+          String word = scnr.next();
+          System.out.println(word);
+          System.out.println("");
         }
+        System.out.println("\n----- TOTAL MONTHLY EXPENSE AMOUNT -----");
+        System.out.print("$");
+        System.out.printf("%.2f", totalExp);
         textInput.close();
         costInput.close();
         scnr.close();
