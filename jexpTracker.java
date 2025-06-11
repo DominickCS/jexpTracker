@@ -8,8 +8,9 @@ import java.io.IOException; // Import the IOException class to handle errors
 class jexpTracker {
   public static ArrayList<String> expenseList = new ArrayList<String>();
   public static ArrayList<Double> costList = new ArrayList<Double>();
+  public static double userIncome;
 
-  public static void editExpenseSheet(File expenseSheet) {
+  public static void editExpenseSheet(File expenseSheet, double userIncome) {
     Scanner textInput = new Scanner(System.in);
     Scanner costInput = new Scanner(System.in);
     String textToWrite = "";
@@ -54,10 +55,8 @@ class jexpTracker {
         bw.close();
         scnr.close();
         expenseSheetWritable.close();
-        textInput.close();
-        costInput.close();
 
-        getExpenseBreakdown();
+        getExpenseBreakdown(userIncome);
 
       } catch (IOException e) {
         System.out.println("An error occurred");
@@ -69,7 +68,7 @@ class jexpTracker {
   }
 
   // New Expense Sheet Creation Method
-  public static void populateExpenseSheet(File expenseSheet) {
+  public static void populateExpenseSheet(File expenseSheet, double userIncome) {
     Scanner textInput = new Scanner(System.in);
     Scanner costInput = new Scanner(System.in);
     String textToWrite = "";
@@ -102,10 +101,8 @@ class jexpTracker {
         }
         expenseSheetWritable.close();
         scnr.close();
-        textInput.close();
-        costInput.close();
 
-        getExpenseBreakdown();
+        getExpenseBreakdown(userIncome);
 
       } catch (IOException e) {
         System.out.println("An error occurred");
@@ -121,28 +118,28 @@ class jexpTracker {
 
     try {
       Scanner fileReader = new Scanner(expenseSheet);
-      System.out.println("----- CURRENT EXPENSE SHEET CONTENTS -----");
+      // System.out.println("----- CURRENT EXPENSE SHEET CONTENTS -----");
       fileReader.nextLine();
 
       while (fileReader.hasNextLine()) {
         if (i % 2 == 0) {
           String currLine = fileReader.nextLine();
-          System.out.println(currLine);
+          // System.out.println(currLine);
           expenseList.add(currLine);
         } else if (i % 2 != 0) {
           String currLine = fileReader.nextLine();
-          System.out.println(currLine);
+          // System.out.println(currLine);
           costList.add(Double.parseDouble(currLine));
         }
         ++i;
       }
       fileReader.close();
 
-      System.out.println("Printing contents of lists:\n");
-      for (int j = 0; j < expenseList.size(); ++j) {
-        System.out.println(expenseList.get(j));
-        System.out.println(costList.get(j));
-      }
+      // System.out.println("Printing contents of lists:\n");
+      // for (int j = 0; j < expenseList.size(); ++j) {
+      // System.out.println(expenseList.get(j));
+      // System.out.println(costList.get(j));
+      // }
     }
 
     catch (IOException e) {
@@ -151,7 +148,7 @@ class jexpTracker {
     }
   }
 
-  public static void getExpenseBreakdown() {
+  public static void getExpenseBreakdown(double userIncome) {
     double totalExp = 0.0;
     for (int i = 0; i < costList.size(); ++i) {
       totalExp += costList.get(i);
@@ -169,9 +166,26 @@ class jexpTracker {
     System.out.println("\n----- TOTAL MONTHLY EXPENSE AMOUNT -----");
     System.out.print("$");
     System.out.printf("%.2f", totalExp);
+    System.out.println(" ");
+
+    double incomeRemainder = ((userIncome / 12) - totalExp);
+
+    System.out.println("----- MONTHLY INCOME REMAINDER -----");
+    System.out.print("$");
+    System.out.printf("%.2f", incomeRemainder);
+    System.out.println(" ");
+    System.out.println("----- BI-WEEKLY INCOME REMAINDER -----");
+    System.out.print("$");
+    System.out.printf("%.2f", (incomeRemainder / 2));
+    System.out.println(" ");
+    System.out.println("----- WEEKLY INCOME REMAINDER -----");
+    System.out.print("$");
+    System.out.printf("%.2f", (incomeRemainder / 4));
+    System.out.println(" ");
+
   }
 
-  public static void createFile() {
+  public static void createFile(double userIncome) {
     System.out.println("Attempting to create expense sheet file.");
     File expenseSheet = new File("expenses.csv"); // Filename to open
     try {
@@ -179,22 +193,21 @@ class jexpTracker {
       Scanner expSheetReader = new Scanner(expenseSheet); // Read expense sheet to determine contents
       if (expenseSheet.createNewFile()) {
         System.out.println("Expense Sheet Created!");
-        populateExpenseSheet(expenseSheet);
+        populateExpenseSheet(expenseSheet, userIncome);
       } else if (!expSheetReader.hasNextLine()) {
         System.out.println("Empty expense sheet detected.\n");
-        populateExpenseSheet(expenseSheet);
+        populateExpenseSheet(expenseSheet, userIncome);
       } else {
         System.out.println("File already exists would you like to edit " + expenseSheet + "?\nY/N\n");
         Scanner userInput = new Scanner(System.in);
-        char userResponse = (userInput.next().charAt(0));
-        if (userResponse == 'Y' || userResponse == 'y') {
+        String userResponse = userInput.next();
+        if (userResponse.charAt(0) == 'Y' || userResponse.charAt(0) == 'y') {
           importData(expenseSheet);
-          editExpenseSheet(expenseSheet);
-        } else if (userResponse == 'N' || userResponse == 'n') {
+          editExpenseSheet(expenseSheet, userIncome);
+        } else if (userResponse.charAt(0) == 'N' || userResponse.charAt(0) == 'n') {
           importData(expenseSheet);
-          getExpenseBreakdown();
+          getExpenseBreakdown(userIncome);
         }
-        userInput.close();
       }
       expSheetReader.close();
     }
@@ -204,7 +217,30 @@ class jexpTracker {
     }
   }
 
+  public static void setIncome() {
+    Scanner incomeInput = new Scanner(System.in);
+    System.out.println("Enter your Annual Salary.");
+    userIncome = incomeInput.nextDouble();
+  }
+
+  public static double getIncome() {
+    return userIncome;
+  }
+
   public static void main(String[] args) {
-    createFile();
+    System.out.println("Welcome to J-ExpTracker!");
+    System.out.println("=== MAIN MENU ===\nType your selection to start\n");
+    System.out.println("1. (E)xpense Tracking\n2. (Q)uit\n");
+
+    Scanner userOptScnr = new Scanner(System.in);
+    if (userOptScnr.hasNext()) {
+      String userOpt = userOptScnr.next();
+      if (userOpt.charAt(0) == 'E' || userOpt.charAt(0) == 'e') {
+        setIncome();
+        createFile(getIncome());
+      } else if (userOpt.charAt(0) == 'Q' || userOpt.charAt(0) == 'q') {
+        return;
+      }
+    }
   }
 }

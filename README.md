@@ -24,9 +24,9 @@ Run the following command to execute the application:
 
 #### - TO-DO -
 
-- [x] Incorporate secondary input stream for expenses -> 06/10/25
-- [ ] Main Menu with options to create new list, view/edit existing, and delete
-- [x] Add expense data to two separate arrays for better outputting. 06/10/25
-- [x] If "expenses.csv" exists, import data into arraylist. 06/11/25
-- [ ] Ask User for income to provide salary remainder
-- [ ] Provide different expense views (Weekly, Semi-Monthly, Monthly, or All)
+- [x] Incorporate secondary input stream for expenses -> (06/10/25)
+- [x] Main Menu with options to create new list, view/edit existing, and delete (06/11/25)
+- [x] Add expense data to two separate arrays for better outputting. (06/10/25)
+- [x] If "expenses.csv" exists, import data into arraylist. (06/11/25)
+- [x] Ask User for income to provide salary remainder (06/11/25)
+- [x] Provide different expense views (Weekly, Semi-Monthly, Monthly, or All) (06/11/25)
