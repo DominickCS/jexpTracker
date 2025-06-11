@@ -3,13 +3,13 @@ import java.io.FileWriter; // Import the FileWriter Class
 import java.util.ArrayList;
 import java.util.Scanner; // Import the Java Scanner Class
 import java.io.IOException; // Import the IOException class to handle errors
-import java.util.ArrayList; // Import the ArrayList Utility Class
+// import java.util.ArrayList; // Import the ArrayList Utility Class
 
 class jexpTracker {
   public static void main(String[] args) {
-    File expenseSheet = new File("expenses.txt"); // Filename to open
+    File expenseSheet = new File("expenses.csv"); // Filename to open
 
-    System.out.println("Attempting to create expense sheet txt file.");
+    System.out.println("Attempting to create expense sheet file.");
 
     try {
       if (expenseSheet.createNewFile()) {
@@ -33,6 +33,8 @@ class jexpTracker {
     if (expenseSheet.canWrite() == true) {
       try {
         FileWriter expenseSheetWritable = new FileWriter(expenseSheet); // Init FileWriter to a writable text file
+        expenseSheetWritable.write("Expense, Cost"); // Init CSV format
+        expenseSheetWritable.write(" ");
         Scanner scnr = new Scanner(expenseSheet); // Init scanner to read text file
         // System.out.println("File is accessible!\n"); // DEBUG
 
@@ -45,13 +47,14 @@ class jexpTracker {
             break;
           } else {
             expenseList.add(textToWrite);
-            expenseSheetWritable.write(textToWrite + ": ");
+            expenseSheetWritable.write("\n");
+            expenseSheetWritable.write(textToWrite + ", ");
           }
           System.out.println("Enter the monthly cost in $\n");
           costToWrite = costInput.nextDouble();
           costList.add(costToWrite);
           totalExp += costToWrite;
-          expenseSheetWritable.write(Double.toString(costToWrite) + " ");
+          expenseSheetWritable.write(Double.toString(costToWrite) + ", ");
         }
 
         // System.out.println("Writing to file!\n"); // DEBUG
@@ -65,7 +68,7 @@ class jexpTracker {
           System.out.printf("%.2f", costList.get(i));
           System.out.println();
         }
-        System.out.println("----- TOTAL MONTHLY EXPENSE AMOUNT -----");
+        System.out.println("\n----- TOTAL MONTHLY EXPENSE AMOUNT -----");
         System.out.print("$");
         System.out.printf("%.2f", totalExp);
         textInput.close();
